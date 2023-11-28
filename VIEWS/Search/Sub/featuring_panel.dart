@@ -17,7 +17,7 @@ class _FeaturingPanelState extends State<FeaturingPanel> {
   QuoteController quoteController = Get.put(QuoteController());
   ProductController Productcontroller=Get.find<ProductController>();
 
-  int maxProductsToShow = 50;
+  int maxProductsToShow = 10;
   String quote='';
 
   @override
@@ -140,7 +140,7 @@ class _FeaturingPanelState extends State<FeaturingPanel> {
                   child: Text('No products available.'));
             } else {
               return Container(
-                 height: size.height * 0.42,
+                  height: size.height * 0.395,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: maxProductsToShow,
@@ -150,16 +150,16 @@ class _FeaturingPanelState extends State<FeaturingPanel> {
                       return productcard1(
                         productController: Productcontroller,
                         id: product.id,
-                        imageUrls: product.imageUrls,
-                        title: product.title,
-                        description: product.description,
+                        title: product.Title,
+                        description: product.Description,
                         oprice: product.oprice,
                         nprice: product.nprice,
                         discount: product.discount,
-                        numberOfPeopleBought: product.numberOfPeopleBought,
-                        sizes: product.sizes,
-                        total_quantity_of_p: product.total_quantity_of_p,
-                        count_in_cart: product.count_in_cart,
+                        quantity: product.Quantity,
+                        imagePath: product.imagepath,
+                        no_of_variations: product.No_of_Variations,
+                        color: product.color,
+
                       );
                     } else if (index == Productcontroller.products.length) {
                       // Display a "Load More" button when reaching the end

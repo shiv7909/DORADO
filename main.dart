@@ -21,12 +21,12 @@ void main() async {
   await Firebase.initializeApp();
 
    ProductController Productcontroller = Get.put(ProductController());
-   Productcontroller.fetchProducts();
+   Productcontroller.fetchProductsFromPanel('Featuring_panel');
 
    Title_retriever titleRetriever= Get.put(Title_retriever());
 
-   Cart_product_controller cart_item_controller = Get.put(Cart_product_controller());
-   cart_item_controller.getProductsFromCart();
+   // Cart_product_controller cart_item_controller = Get.put(Cart_product_controller());
+   // cart_item_controller.getProductsFromCart();
 
   AnnouncementController announcementController = Get.put(AnnouncementController());
 

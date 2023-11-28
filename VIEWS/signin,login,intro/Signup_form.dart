@@ -103,7 +103,8 @@ class signup extends State<Signup> {
                           height: 130,
                           child: artboard != null
                               ? Rive(artboard: artboard!)
-                              : Container(
+                              :
+                          Container(
                                   margin: EdgeInsets.only(top: 40),
                                   alignment: Alignment.center,
                                   child: Column(
@@ -147,7 +148,6 @@ class signup extends State<Signup> {
                             Column(
                               children: [
                                 ///username block
-
                                 TextFormField(
                                   controller: usernameController,
                                   onTap: checking,
@@ -158,7 +158,7 @@ class signup extends State<Signup> {
                                       fontWeight: FontWeight.w500),
                                   decoration: const InputDecoration(
                                     prefixIcon:
-                                        Icon(Icons.alternate_email_outlined),
+                                        Icon(Icons.account_circle_outlined),
                                     prefixIconColor: Colors.black54,
                                     hintText: 'Username',
                                     filled: true,
@@ -183,9 +183,9 @@ class signup extends State<Signup> {
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500),
                                   decoration: const InputDecoration(
-                                    prefixIcon: Icon(Icons.phone),
+                                    prefixIcon: Icon(Icons.alternate_email_outlined),
                                     prefixIconColor: Colors.black54,
-                                    hintText: 'phone number',
+                                    hintText: 'Email',
                                     filled: true,
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(

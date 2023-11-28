@@ -44,7 +44,7 @@ class _HomeScreenState extends State<Home_slider> {
 
             Container(
             child: Column(
-            children: [
+            children:[
                 // for (var data in snapshot.data!)
             Container(
               width: size.width * 1,

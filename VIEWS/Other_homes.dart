@@ -26,7 +26,7 @@ class _navigated_HomeState extends State<navigated_Home> {
 
   ProductController Productcontroller=Get.find<ProductController>();
 
-  Cart_product_controller cartretrivecontroller = Get.find<Cart_product_controller>();
+  // Cart_product_controller cartretrivecontroller = Get.find<Cart_product_controller>();
 
 
   @override
@@ -39,7 +39,8 @@ class _navigated_HomeState extends State<navigated_Home> {
     List<Widget> Bodies = [
       body(controller: Productcontroller,),
       ArScreen(),
-      shopping_bag_PageWithOptions(),      // HomeScreen1(),
+      body(controller: Productcontroller,),
+      // shopping_bag_PageWithOptions(),      // HomeScreen1(),
       SignOut(),
     ];
 

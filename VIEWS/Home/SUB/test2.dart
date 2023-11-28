@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:untitled1/CONTROLLERS/main_product_card/Retriving_controllers/product.dart';
 import '../../../CONTROLLERS/anncoucement_controller.dart';
+import '../../Search/1_body.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   final String Category;
@@ -15,14 +17,15 @@ class VideoPlayerScreen extends StatefulWidget {
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   final announcementController = Get.find<AnnouncementController>();
-  late String documentId = widget.Category;
-  late String Addid = widget.Subcollection;
+  final productcontroller = Get.find<ProductController>();
+  late String Category = widget.Category;
+  late String Subcollection = widget.Subcollection;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return FutureBuilder<List<AnnouncementData>?>(
-      future: announcementController.getCurrentImageData(documentId, Addid),
+      future: announcementController.getCurrentImageData(Category, Subcollection),
       builder: (BuildContext context, AsyncSnapshot<List<AnnouncementData>?> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Shimmer.fromColors(
@@ -98,27 +101,31 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                 ),
                               ),
                             ), child: null,
-                          
                           ),
                         ),
                         Positioned(
                           bottom: 20,
                           right: 20,
-                          child: Container(
-                            width: size.width * 0.3,
-                            height: size.height * 0.05,
-                            color: Colors.white,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Shop now',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
+                          child: InkWell(
+                            onTap: (){
+                              Get.toNamed('/navigated_home_0');
+                            },
+                            child: Container(
+                              width: size.width * 0.3,
+                              height: size.height * 0.05,
+                              color: Colors.white,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Shop now',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),

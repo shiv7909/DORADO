@@ -63,7 +63,6 @@ class _VideoSplashScreenState extends State<VideoSplashScreen> {
   @override
   void initState() {
     super.initState();
-
     // Initialize the video controller with your video asset or URL
     _controller = VideoPlayerController.asset('assists/icons/DORADO.mp4')
       ..initialize().then((_) {
@@ -74,7 +73,7 @@ class _VideoSplashScreenState extends State<VideoSplashScreen> {
       });
 
     // Start a timer to navigate to the home screen after the video duration
-    Future.delayed( Duration(seconds: 8), ()  {
+    Future.delayed( Duration(seconds: 3), ()  {
       _controller.pause();
       Get.offAllNamed('/home');
     });

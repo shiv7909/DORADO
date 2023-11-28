@@ -27,7 +27,7 @@ class Product {
     this.sizesAvailableItems = const {},
     this.stockExists = false,
     this.stock=0,
-    this.image = '', // Initialize with an empty string
+    this.image = '', required No_of_Variations, required color, required imagepath, required Quantity, // Initialize with an empty string
   });
 }
 

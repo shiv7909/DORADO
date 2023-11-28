@@ -13,7 +13,7 @@ class FavouritesController extends GetxController{
   }
 
 
-  Future<void> addToFavorites(int productId) async {
+  Future<void> addToFavorites(String productId) async {
     // Get the current user
     final User? user = FirebaseAuth.instance.currentUser;
 
@@ -41,7 +41,7 @@ class FavouritesController extends GetxController{
     }
   }
 
-  Future<void> removeFromFavorites(int productId) async {
+  Future<void> removeFromFavorites(String productId) async {
     // Get the current user
     final User? user = FirebaseAuth.instance.currentUser;
 

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:untitled1/CONTROLLERS/main_product_card/Functionality_controllers/Favourites_controller.dart';
 import '../../../CONTROLLERS/main_product_card/Retriving_controllers/product.dart';
-import '../../../MODELS/product.dart';
-import 'counter.dart';
 
 class productcard1 extends StatefulWidget {
   final ProductController productController;
@@ -12,28 +10,28 @@ class productcard1 extends StatefulWidget {
   productcard1({
     required this.productController,
     required this.id,
-    required this.imageUrls,
     required this.title,
     required this.description,
+    required this.no_of_variations,
+
     required this.oprice,
     required this.nprice,
     required this.discount,
-    required this.numberOfPeopleBought,
-    required this.total_quantity_of_p,
-    required this.sizes,
-    required this.count_in_cart,
-  }) : imagePath = imageUrls.isNotEmpty ? imageUrls[0] : '';
+    required this.color,
 
-  final String title, description, imagePath;
-  final int id,
-      oprice,
+    required this.imagePath,
+    required this.quantity,
+    // required this.sizes,
+    // required this.count_in_cart,
+  }) ;
+      // : imagePath = imageUrls.isNotEmpty ? imageUrls[0] : '';
+
+  final String title, description, imagePath,color,id;
+  final int oprice,
       nprice,
       discount,
-      numberOfPeopleBought,
-      total_quantity_of_p,
-      count_in_cart;
-  final List<String> imageUrls;
-   final List<SizeDetails> sizes;
+      no_of_variations,
+      quantity;
 
   @override
   State<productcard1> createState() => _productcard1State();
@@ -45,10 +43,11 @@ class _productcard1State extends State<productcard1> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Stack(children: [
+    return Stack(
+        children: [
       Container(
         width: size.width / 2 - 4,
-        padding: EdgeInsets.only(top: 4, left: 3, right: 3),
+         padding: EdgeInsets.only(top: 2, left: 2, right: 2),
         margin: EdgeInsets.only(
           left: 3,
           top: 5,
@@ -60,7 +59,8 @@ class _productcard1State extends State<productcard1> {
             topLeft: Radius.circular(5),
             topRight: Radius.circular(5),
           ),
-          color: Colors.grey.shade100,
+          // color: Colors.grey.shade100,
+          color: Color(0x6FE3E5E5)
         ),
           child: Column(children: <Widget>[
             Stack(children: [
@@ -78,7 +78,7 @@ class _productcard1State extends State<productcard1> {
                       child: SizedBox(
                         height: size.height * 0.244,
                         child: widget.imagePath.isNotEmpty &&
-                                widget.total_quantity_of_p != 0
+                                widget.quantity != 0
                             ? Image.network(
                                 widget.imagePath,
                                 fit: BoxFit.contain,
@@ -113,50 +113,50 @@ class _productcard1State extends State<productcard1> {
                       )),
                 ),
               ),
-              Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child: Container(
-                    height: size.height * 0.02 + 2,
-                    width: size.width * 0.1 - 2,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(7))),
-                    padding: EdgeInsets.all(4),
-                    child: FittedBox(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '${widget.numberOfPeopleBought}',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 6),
-                          ),
-                          Icon(
-                            Icons.shopping_bag_outlined,
-                            size: 7,
-                          ),
-                        ],
-                      ),
-                    ),
-                  )),
+              // Positioned(
+              //     bottom: 0,
+              //     left: 0,
+              //     child: Container(
+              //       height: size.height * 0.02 + 2,
+              //       width: size.width * 0.1 - 2,
+              //       decoration: BoxDecoration(
+              //           borderRadius: BorderRadius.all(Radius.circular(7))),
+              //       padding: EdgeInsets.all(4),
+              //       child: FittedBox(
+              //         child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //           children: [
+              //             Text(
+              //               '${widget.numberOfPeopleBought}',
+              //               style: TextStyle(
+              //                   fontWeight: FontWeight.bold, fontSize: 6),
+              //             ),
+              //             Icon(
+              //               Icons.shopping_bag_outlined,
+              //               size: 7,
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     )),
             ]),
 
             ///look at this during the unexpected exception
             Container(
-                margin: EdgeInsets.only(top: 7),
-                height: size.height * 0.15,
-                padding: EdgeInsets.only(left: 6, right: 6),
+                margin: EdgeInsets.only(top: 6),
+                 // height: size.height * 0.11,
+                 padding: EdgeInsets.only(left: 6, right: 6),
                 child: InkWell(
                   onTap: () {},
                   child: Column(
                     children: <Widget>[
                       Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
                                 child: Container(
                               alignment: Alignment.centerLeft,
-                              height: (size.height * 0.05),
+                              height: (size.height * 0.038),
                               child: Text(
                                 '${widget.title}\n'.toUpperCase(),
                                 style: Theme.of(context)
@@ -164,25 +164,27 @@ class _productcard1State extends State<productcard1> {
                                     .labelLarge
                                     ?.copyWith(
                                         fontSize: 12, color: Colors.black),
-                                maxLines: widget.title.length > 9
+                                maxLines: widget.title.length > 14
                                     ? 2
                                     : 1, // Limit the title to 2 lines (adjust as needed)
                               ),
                             )),
-                            Expanded(
-                              child: Container(
-                                  alignment: Alignment.centerRight,
-                                  height: (size.height * 0.05),
-                                  child: AddCounter(
-                                    sizes: widget.sizes,
-                                    id: widget.id,
-                                  )),
-                            )
+                            // Expanded(
+                            //   child: Container(
+                            //       alignment: Alignment.centerRight,
+                            //       height: (size.height * 0.05),
+                            //       child: AddCounter(
+                            //         // sizes: widget.sizes,
+                            //         id: widget.id,
+                            //       )
+                            //   ),
+                            // )
                           ]),
                       Container(
                           alignment: Alignment.centerLeft,
-                          height: (size.height * 0.05),
-                          width: size.width * 0.44,
+                          height: (size.height * 0.047),
+                          padding: EdgeInsets.only(right: 5),
+                          // width: size.width * 0.44,
                           child: Text(
                             '${widget.description}\n',
                             style: Theme.of(context)
@@ -194,10 +196,10 @@ class _productcard1State extends State<productcard1> {
                                 .ellipsis, // Limit the title to 2 lines (adjust as needed)
                           )),
                       Container(
-                        alignment: Alignment.centerLeft,
-                        height: (size.height * 0.05),
+                         alignment: Alignment.centerLeft,
+                          height: (size.height * 0.045),
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Expanded(
                               child: FittedBox(
@@ -213,7 +215,7 @@ class _productcard1State extends State<productcard1> {
                               ),
                             ),
                             SizedBox(
-                              width: 6,
+                              width: size.width*0.04,
                             ),
                             Visibility(
                               visible: widget.nprice < widget.oprice,
@@ -227,6 +229,7 @@ class _productcard1State extends State<productcard1> {
                                       fontWeight: FontWeight.w500,
                                       fontSize: 11,
                                       color: Color(0xFF343434),
+
                                     ),
                                     maxLines: 1,
                                   ),
@@ -234,7 +237,7 @@ class _productcard1State extends State<productcard1> {
                               ),
                             ),
                             SizedBox(
-                              width: 6,
+                              width: size.width*0.04,
                             ),
                             Visibility(
                               visible: widget.nprice < widget.oprice,
@@ -277,8 +280,7 @@ class _productcard1State extends State<productcard1> {
                 // If the item is now a favorite, add it to the favorites subcollection
                 if (isFavorite.value) {
                   // Add the product to favorites
-                  widget.Fav.addToFavorites(widget
-                      .id); // Assuming productController is your controller instance
+                  widget.Fav.addToFavorites(widget.id); // Assuming productController is your controller instance
                 } else {
                   // Remove the product from favorites
                   widget.Fav.removeFromFavorites(widget.id);

@@ -37,7 +37,7 @@ class _bodyState extends State<body> with AutomaticKeepAliveClientMixin<body> {
         color: Colors.blue,
         displacement: 50,
         onRefresh: () async {
-           widget.controller.fetchProducts(); // Trigger the fetchProducts function in the controller
+           // widget.controller.fetchProducts(); // Trigger the fetchProducts function in the controller
         },
         child: SingleChildScrollView(
           child: Column(

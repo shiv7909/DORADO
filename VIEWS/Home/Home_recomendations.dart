@@ -32,7 +32,7 @@ class _Home_RecommendationsState extends State<Home_Recommendations> {
         SingleChildScrollView(
           child: Column(
             children: [
-              Home_stories(),
+              // Home_stories(),
               // VideoPlayerScreen(),
               // MyHomePage(),
 
