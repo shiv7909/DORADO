@@ -16,6 +16,7 @@ class ProductController extends GetxController {
 
   Future<void> fetchProductsFromPanel(String panelId) async {
     try {
+      products.clear();
       final panelsCollection = FirebaseFirestore.instance.collection('panels');
       final panelDocRef = panelsCollection.doc(panelId);
       final panelDocSnapshot = await panelDocRef.get();
@@ -180,7 +181,8 @@ class ProductController extends GetxController {
         final id = productData['id'] ?? '';
         final title = productData['Title'] ?? '';
         final description = productData['Description'] ?? '';
-        final noOfVariations = productData['No_of_Variations'] ?? 0; // Check for the exact field name
+        final noOfVariations = productData['No_of_Variations'] ?? 0;
+       // Check for the exact field name
 
         final variationRef = productDocRef.collection('variations').doc(variationId);
 
@@ -208,6 +210,7 @@ class ProductController extends GetxController {
             Quantity: quantity,
             Title:title,
             Description: description,
+            variationid: variationId,
           );
 
           products.add(product);

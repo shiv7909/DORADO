@@ -16,8 +16,9 @@ class VideoPlayerScreen extends StatefulWidget {
 }
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
+
   final announcementController = Get.find<AnnouncementController>();
-  final productcontroller = Get.find<ProductController>();
+
   late String Category = widget.Category;
   late String Subcollection = widget.Subcollection;
 

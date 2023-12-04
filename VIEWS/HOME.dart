@@ -16,7 +16,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
 
-  ProductController Productcontroller=Get.find<ProductController>();
 
   @override
   bool get wantKeepAlive => true;

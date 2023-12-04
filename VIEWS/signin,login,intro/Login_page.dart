@@ -14,7 +14,7 @@ class Login extends StatefulWidget {
 }
 
 class LoginState extends State<Login> {
-  ProductController Productcontroller=Get.find<ProductController>();
+  // ProductController Productcontroller=Get.find<ProductController>();
 
 
   // late SMIBool isHandsUp;

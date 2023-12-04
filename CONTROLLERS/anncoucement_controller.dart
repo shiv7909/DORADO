@@ -23,8 +23,11 @@ class AnnouncementController extends GetxController {
           name: doc['name'] as String,
           id: doc['id'] as int ,
         ))
+
             .toList();
+        print("--------------------------------------------------------------------------------------");
         return dataList;
+
       } else {
         return null;
       }

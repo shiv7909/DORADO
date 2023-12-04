@@ -5,31 +5,38 @@ import 'package:untitled1/CONTROLLERS/QuoteController.dart';
 import 'package:untitled1/VIEWS/Search/Sub/productcard1.dart';
 import '../../../CONTROLLERS/main_product_card/Retriving_controllers/product.dart';
 
-class FeaturingPanel extends StatefulWidget {
-
+ class FeaturingPanel extends StatefulWidget {
 
   @override
   State<FeaturingPanel> createState() => _FeaturingPanelState();
 }
 
-class _FeaturingPanelState extends State<FeaturingPanel> {
+ class _FeaturingPanelState extends State< FeaturingPanel> {
 
-  QuoteController quoteController = Get.put(QuoteController());
-  ProductController Productcontroller=Get.find<ProductController>();
+
+
+      ProductController Productcontroller=Get.find<ProductController>();
+
+    QuoteController quoteController=Get.find<QuoteController>();
 
   int maxProductsToShow = 10;
   String quote='';
 
-  @override
-  void initState() {
-    super.initState();
-      // Productcontroller.fetchProducts();
-  }
+  bool _dataFetched = false; // Flag to track if data has been fetched
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // Check if data has not been fetched yet, then fetch it
+  //   // if (!_dataFetched) {
+  //       Productcontroller.fetchProductsFromPanel('Featuring_panel');
+  //   //   _dataFetched=true;
+  //   //   // Fetch data when the widget is initialized
+  //   // }
+  // }
   // Function to load more products
   void loadMoreProducts() {
     setState(() {
-
       quoteController.getQuote('Featuringpanel_quote').then((Quote) {
         if (Quote != null) {
           setState(() {
@@ -38,7 +45,6 @@ class _FeaturingPanelState extends State<FeaturingPanel> {
         }
       }
       );
-
       // maxProductsToShow += 10; // Increase the number of products to show
     });
   }
@@ -85,19 +91,22 @@ class _FeaturingPanelState extends State<FeaturingPanel> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
+@override
+    Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     bool showText = true; // Control flag to show text for the first 4 seconds
 
     return FutureBuilder(
-        future: Future.delayed(Duration(seconds: 4)),
+
+         future: Future.delayed(Duration(microseconds: 4)),
+        // future:  Productcontroller.fetchProductsFromPanel('Featuring_panel'),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             // After 4 seconds, hide the text and show shimmering placeholders
             showText = false;
           }
           return Obx(() {
+
             if (Productcontroller.isLoading.value) {
               if (showText) {
                 // Show text for the first 4 seconds
@@ -118,8 +127,6 @@ class _FeaturingPanelState extends State<FeaturingPanel> {
                           ),
                       ),
                     );
-
-
               } else {
                 // After 4 seconds, show shimmering placeholders
                 return SingleChildScrollView(
@@ -136,19 +143,23 @@ class _FeaturingPanelState extends State<FeaturingPanel> {
               }
             } else if (Productcontroller.products.isEmpty) {
               return Container(
+                alignment: Alignment.center,
                   height: size.height * 0.4 + 5,
-                  child: Text('No products available.'));
-            } else {
-              return Container(
-                  height: size.height * 0.395,
-                child: ListView.builder(
+                  child: Text('No items in this section'));
+            }
+            else {
+              return
+                Container(
+                  height: size.height * 0.369,
+                child:
+                ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: maxProductsToShow,
                   itemBuilder: (context, index) {
                     if (index < Productcontroller.products.length) {
                       final product = Productcontroller.products[index];
                       return productcard1(
-                        productController: Productcontroller,
+                        // productController: Productcontroller,
                         id: product.id,
                         title: product.Title,
                         description: product.Description,
@@ -159,7 +170,7 @@ class _FeaturingPanelState extends State<FeaturingPanel> {
                         imagePath: product.imagepath,
                         no_of_variations: product.No_of_Variations,
                         color: product.color,
-
+                        variationid: product.variationid,
                       );
                     } else if (index == Productcontroller.products.length) {
                       // Display a "Load More" button when reaching the end

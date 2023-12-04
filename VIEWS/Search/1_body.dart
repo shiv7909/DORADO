@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import '../../CONTROLLERS/Navigation_panels/Navigation_1_controller.dart';
 import '../../CONTROLLERS/carousel/home_carousel_controller.dart';
 import '../../CONTROLLERS/main_product_card/Retriving_controllers/product.dart';
 import 'Sub/announcement1.dart';
@@ -13,16 +16,9 @@ import 'Sub/title_with_more_btn.dart';
 
 
 class body extends StatefulWidget {
-
-  final ProductController controller; // Add this line to accept the controller
-
-  body({required this.controller});
-
   @override
   State<body> createState() => _bodyState();
 }
-
-
 
 class _bodyState extends State<body> with AutomaticKeepAliveClientMixin<body> {
 
@@ -30,53 +26,57 @@ class _bodyState extends State<body> with AutomaticKeepAliveClientMixin<body> {
   bool get wantKeepAlive => true;
     @override
     Widget build(BuildContext context) {
-      Size size=MediaQuery.of(context).size;
+      ProductController productController=Get.find<ProductController>();
+      NavigationController _navigationController=Get.find<NavigationController>();
       super.build(context);
 
-      return RefreshIndicator(
-        color: Colors.blue,
-        displacement: 50,
-        onRefresh: () async {
-           // widget.controller.fetchProducts(); // Trigger the fetchProducts function in the controller
-        },
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              // VideoPlayerScreen(),
-              impnavi_head(),
-              imp_navi_panel(),
-              // imp_navi_panel(controller: widget.controller,),
-          //     Stack(
-          //       children:[
-          //         Container(
-          //         height:size.height*0.28,
-          //         width: size.width,
-          //           child: Image.asset('assists/images/bgbgbggbggg.png',fit: BoxFit.cover,),
-          //       ),
-          //         Container(
-          //           alignment: Alignment.center,
-          //           height:size.height*0.28,
-          //           width: size.width,
-          //           color:
-          //           Colors.transparent,
-          //           child: Image.asset('assists/images/Screenshot 2023-10-27 131951.png',),
-          //         ),
-          // ]
-          //     ),
-              // Announcement2(),
-              // HomeCarouselSlider(carouselcontroller: carouselController(firestore: FirebaseFirestore.instance)),
-              TitleWithMoreBtn( title: 'Title1', size: 15,),
-              FeaturingPanel(),
-              TitleWithMoreBtn( title: 'Title2', size: 15,),
-              FeaturingPanel(),
-              Announcement1(),
-              SizedBox(height: 15,),
-              slider2(controller: carouselController(firestore: FirebaseFirestore.instance)),
-              TitleWithMoreBtn( title: 'Title3', size: 15,),
-              FeaturingPanel(),
-            ],
+      return
+        RefreshIndicator(
+          color: Colors.blue,
+          displacement: 50,
+          onRefresh: () async {
+            productController.fetchProductsFromPanel('Featuring_panel');
+            _navigationController.fetchNavigationItems();
+            // Trigger the fetchProducts function in the controller
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                // VideoPlayerScreen(),
+                impnavi_head(),
+                imp_navi_panel(),
+                // imp_navi_panel(controller: widget.controller,),
+            //     Stack(
+            //       children:[
+            //         Container(
+            //         height:size.height*0.28,
+            //         width: size.width,
+            //           child: Image.asset('assists/images/bgbgbggbggg.png',fit: BoxFit.cover,),
+            //       ),
+            //         Container(
+            //           alignment: Alignment.center,
+            //           height:size.height*0.28,
+            //           width: size.width,
+            //           color:
+            //           Colors.transparent,
+            //           child: Image.asset('assists/images/Screenshot 2023-10-27 131951.png',),
+            //         ),
+            // ]
+            //     ),
+                // Announcement2(),
+                // HomeCarouselSlider(carouselcontroller: carouselController(firestore: FirebaseFirestore.instance)),
+                TitleWithMoreBtn( title: 'Title1', size: 15,),
+                FeaturingPanel(),
+                TitleWithMoreBtn( title: 'Title2', size: 15,),
+                FeaturingPanel(),
+                Announcement1(),
+                SizedBox(height: 15,),
+                slider2(controller: carouselController(firestore: FirebaseFirestore.instance)),
+                TitleWithMoreBtn( title: 'Title3', size: 15,),
+                FeaturingPanel(),
+              ],
+            ),
           ),
-        ),
       );
     }
   }

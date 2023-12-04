@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 class FavouritesController extends GetxController{
 
 
+  RxList<String> favoriteItems = <String>[].obs;
+
   void updateUI() {
     update();
   }
@@ -27,7 +29,8 @@ class FavouritesController extends GetxController{
       // Check if the item is already in favorites
       QuerySnapshot<Object?> existingFavorites =
       await favoritesRef.where('id', isEqualTo: productId.toString()).get();
-
+      favoriteItems.add(productId);
+      print("successfully added id");
       if (existingFavorites.docs.isEmpty) {
         // The item is not in favorites, so add it
         await favoritesRef.add({

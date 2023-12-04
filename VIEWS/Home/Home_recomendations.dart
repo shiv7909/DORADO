@@ -14,9 +14,9 @@ class Home_Recommendations extends StatefulWidget {
   @override
   State<Home_Recommendations> createState() => _Home_RecommendationsState();
 }
-class _Home_RecommendationsState extends State<Home_Recommendations> {
+class _Home_RecommendationsState extends State<Home_Recommendations>  with AutomaticKeepAliveClientMixin{
 
-
+  bool get wantKeepAlive=> true;
   @override
   Widget build(BuildContext context) {
     // it will provide us the total height and width of the screen
@@ -39,8 +39,10 @@ class _Home_RecommendationsState extends State<Home_Recommendations> {
               VideoPlayerScreen(Category: '${widget.category}', Subcollection: 'Add1',),
                Home_slider(),
               VideoPlayerScreen(Category: '${widget.category}', Subcollection: 'Add2',),
-              TitleWithMoreBtn( title: 'Title2', size: 15,),
+
+              TitleWithMoreBtn(title: 'Title2', size: 15,),
               FeaturingPanel(),
+
               SizedBox(height: 80,)
             ],
           ),

@@ -5,6 +5,8 @@ import 'package:untitled1/VIEWS/signin,login,intro/Login_page.dart';
 import 'package:untitled1/MODELS/constants.dart';
 import 'package:untitled1/VIEWS/signin,login,intro/splashbind.dart';
 import 'CONTROLLERS/Cart/Retriving_controllers/cart_items_retrive_controller.dart';
+import 'CONTROLLERS/Navigation_panels/Navigation_1_controller.dart';
+import 'CONTROLLERS/QuoteController.dart';
 import 'CONTROLLERS/Title_retriver_controller.dart';
 import 'CONTROLLERS/anncoucement_controller.dart';
 import 'CONTROLLERS/auth_controller.dart';
@@ -20,15 +22,29 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-   ProductController Productcontroller = Get.put(ProductController());
-   Productcontroller.fetchProductsFromPanel('Featuring_panel');
 
-   Title_retriever titleRetriever= Get.put(Title_retriever());
+   // Get.lazyPut<ProductController>(() => ProductController());
+  // Get.lazyPut<ProductController>(() => ProductController);
+
+  NavigationController _navigationController=Get.put(NavigationController());
+  _navigationController.fetchNavigationItems();
+
+  ProductController productController=Get.put(ProductController());
+    productController.fetchProductsFromPanel('Featuring_panel');
+
+
+
+
+   // Get.lazyPut<QuoteController>(()=>QuoteController());
+  QuoteController quoteController=Get.put(QuoteController());
+
+  Title_retriever titleRetriever= Get.put(Title_retriever());
+
 
    // Cart_product_controller cart_item_controller = Get.put(Cart_product_controller());
    // cart_item_controller.getProductsFromCart();
 
-  AnnouncementController announcementController = Get.put(AnnouncementController());
+   AnnouncementController announcementController = Get.put(AnnouncementController());
 
 
 

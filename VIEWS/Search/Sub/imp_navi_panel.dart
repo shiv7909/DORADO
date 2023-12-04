@@ -12,13 +12,13 @@ class imp_navi_panel extends StatefulWidget {
 }
 
 class _imp_navi_panelState extends State<imp_navi_panel> {
-  final NavigationController _navigationController = NavigationController();
 
+   NavigationController _navigationController = Get.find<NavigationController>();
   @override
   void initState() {
     super.initState();
     // Fetch data when the widget is first created
-    _navigationController.fetchNavigationItems();
+    // _navigationController.fetchNavigationItems();
   }
 
   @override

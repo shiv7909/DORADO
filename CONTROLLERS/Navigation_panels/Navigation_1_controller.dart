@@ -47,6 +47,7 @@ class NavigationController extends GetxController {
 
       navigationItems.value = subcollectionSnapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        print("heloooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
         return NavigationItem1(
           iconpath: data['iconpath'],
           name: data['name'],

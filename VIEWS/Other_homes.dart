@@ -1,12 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:untitled1/VIEWS/Account/account_signout.dart';
 import 'package:untitled1/VIEWS/AR/ar.dart';
-import '../CONTROLLERS/Cart/Retriving_controllers/cart_items_retrive_controller.dart';
 import 'Other_Appbar.dart';
-import '../CONTROLLERS/main_product_card/Retriving_controllers/product.dart';
-import 'Cart/Cart_pagewith_options.dart';
+
 import 'Cart/cart_App_bar.dart';
 import 'bottom_navigator.dart';
 import 'Search/1_body.dart';
@@ -22,12 +19,9 @@ class navigated_Home extends StatefulWidget {
   State<navigated_Home> createState() => _navigated_HomeState();
 }
 
-class _navigated_HomeState extends State<navigated_Home> {
+class _navigated_HomeState extends State<navigated_Home> with AutomaticKeepAliveClientMixin{
 
-  ProductController Productcontroller=Get.find<ProductController>();
-
-  // Cart_product_controller cartretrivecontroller = Get.find<Cart_product_controller>();
-
+  bool get wantKeepAlive=> true;
 
   @override
 
@@ -37,9 +31,9 @@ class _navigated_HomeState extends State<navigated_Home> {
     @override
 
     List<Widget> Bodies = [
-      body(controller: Productcontroller,),
+      body(),
       ArScreen(),
-      body(controller: Productcontroller,),
+      body(),
       // shopping_bag_PageWithOptions(),      // HomeScreen1(),
       SignOut(),
     ];

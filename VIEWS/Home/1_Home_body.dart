@@ -10,10 +10,12 @@ class Home_body extends StatefulWidget {
       Home_bodyState();
 }
 
-class Home_bodyState extends State<Home_body> {
+class Home_bodyState extends State<Home_body> with AutomaticKeepAliveClientMixin {
   int selectedOption = 0; // Default option
   PageController pageController = PageController();
 
+
+bool get wantKeepAlive=> true;
 
   @override
   void dispose() {
