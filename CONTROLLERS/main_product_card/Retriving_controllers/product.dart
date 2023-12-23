@@ -174,7 +174,8 @@ class ProductController extends GetxController {
         print('product exists');
         print('product exists');
         print('product exists');
-        print('product exists');print('product exists');
+        print('product exists');
+        print('product exists');
 
         final productData = productDocSnapshot.data() as Map<String, dynamic>;
 

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled1/VIEWS/Account/account_signout.dart';
 import 'package:untitled1/VIEWS/AR/ar.dart';
+import 'Cart/Cart_pagewith_options.dart';
 import 'Other_Appbar.dart';
 
 import 'Cart/cart_App_bar.dart';
@@ -26,6 +27,7 @@ class _navigated_HomeState extends State<navigated_Home> with AutomaticKeepAlive
   @override
 
   Widget build(BuildContext context) {
+    super.build(context);
     int Index = widget.index;
 
     @override
@@ -33,8 +35,8 @@ class _navigated_HomeState extends State<navigated_Home> with AutomaticKeepAlive
     List<Widget> Bodies = [
       body(),
       ArScreen(),
-      body(),
-      // shopping_bag_PageWithOptions(),      // HomeScreen1(),
+     // body(),
+      shopping_bag_PageWithOptions(),      // HomeScreen1(),
       SignOut(),
     ];
 

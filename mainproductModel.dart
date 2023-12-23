@@ -11,10 +11,12 @@ class ParticularProduct {
   final int nprice;
   final int discount;
   final String color;
+  final String varid;
 
   final List<String> images;
   final int Quantity;
-  // final String vid;
+  final List<SizeInfo> sizes;
+  //
 
   ParticularProduct ({
     required this.id,
@@ -26,11 +28,23 @@ class ParticularProduct {
     required this.nprice,
     required this.discount,
     required this.color,
+    required this.varid,
 
     required this.Quantity,
     required this.images,
-    // required this.vid,
+    required this.sizes,
+
 
   });
 
+}
+
+class SizeInfo {
+  final String size;
+  final int availableItems;
+
+  SizeInfo({
+    required this.size,
+    required this.availableItems,
+  });
 }

@@ -16,7 +16,7 @@ class Appbar2 extends StatelessWidget implements PreferredSizeWidget {
           );
         },
         child: Container(
-          padding: EdgeInsets.only(top: (kDefaultPadding *2)-5),
+          padding: EdgeInsets.only(top:30),
           decoration: BoxDecoration(
              color: Color(0XFFCCEAE6),
 

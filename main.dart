@@ -41,7 +41,7 @@ void main() async {
   Title_retriever titleRetriever= Get.put(Title_retriever());
 
 
-   // Cart_product_controller cart_item_controller = Get.put(Cart_product_controller());
+  CartProductController cart_item_controller = Get.put(CartProductController());
    // cart_item_controller.getProductsFromCart();
 
    AnnouncementController announcementController = Get.put(AnnouncementController());

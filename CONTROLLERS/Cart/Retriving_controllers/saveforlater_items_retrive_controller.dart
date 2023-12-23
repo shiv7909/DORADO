@@ -7,7 +7,7 @@
 // class SavedForLaterController extends GetxController {
 //
 //
-//   final RxList<Product> savedForLaterProducts = RxList<Product>();
+//   final RxList<CartProduct> savedForLaterProducts = RxList<CartProduct>();
 //
 //   final RxBool isCartEmpty = true.obs;
 //
@@ -35,7 +35,7 @@
 //       isCartEmpty.value = false; // Set isCartEmpty to false if there are items
 //     }
 //
-//     final List<Product> savedForLaterList = [];
+//     final List<CartProduct> savedForLaterList = [];
 //
 //     for (QueryDocumentSnapshot savedForLaterDoc in savedForLaterSnapshot.docs) {
 //       final data = savedForLaterDoc.data() as Map<String, dynamic>?;
@@ -60,7 +60,7 @@
 //     print('Saved for later products: $savedForLaterProducts');
 //   }
 //
-//   Future<Product?> fetchProductDetails(int productId, String size) async {
+//   Future<CartProduct?> fetchProductDetails(int productId, String size) async {
 //     CollectionReference productsCollection =
 //     FirebaseFirestore.instance.collection('products');
 //
@@ -71,7 +71,7 @@
 //       DocumentSnapshot productSnapshot = productQuerySnapshot.docs.first;
 //       final productDetails = productSnapshot.data() as Map<String, dynamic>;
 //
-//       final product = Product(
+//       final product = CartProduct(
 //         id: _parseInteger(productDetails['id']),
 //         title: productDetails['title'] ?? '',
 //         description: productDetails['description'] ?? '',
@@ -86,7 +86,7 @@
 //       await productSnapshot.reference.collection('product_images').get();
 //       if (imageQuerySnapshot.docs.isNotEmpty) {
 //         final firstImageDoc = imageQuerySnapshot.docs.first;
-//         product.image = firstImageDoc['imagePath'] as String? ?? '';
+//         product.imagepath = firstImageDoc['imagePath'] as String? ?? '';
 //       } else {
 //         print('Missing or invalid image data for Product ID $productId');
 //       }

@@ -48,7 +48,7 @@
 //   @override
 //   Widget build(BuildContext context) {
 //
-//     final cartcontroller = Get.find<SavedForLaterController>();
+//     // final cartcontroller = Get.find<Saved_for_later>();
 //     final  savedForLaterProduct = cartcontroller.savedForLaterProducts;
 //
 //     Size size=MediaQuery.of(context).size;

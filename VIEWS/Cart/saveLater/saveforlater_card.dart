@@ -7,7 +7,7 @@ import '../../../../CONTROLLERS/Cart/Functionality_controllers/product_in_cart_i
 
 class Bag_savelater_Item extends StatefulWidget {
 
-  final Product saveLaterProducts;
+  final CartProduct saveLaterProducts;
   final Product_incre_decre_remo_cart_controller cartController;
   final   Saved_for_later saveforlater;
   final Function() onRemove;
@@ -68,7 +68,7 @@ class _CartProductItemState extends State<Bag_savelater_Item> {
                           ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             child: Image.network(
-                                widget.saveLaterProducts.image),
+                                widget.saveLaterProducts.imagepath),
                           ),
                         ),
                       ]),
@@ -86,7 +86,7 @@ class _CartProductItemState extends State<Bag_savelater_Item> {
                                       alignment: Alignment.centerLeft,
                                       fit: BoxFit.scaleDown,
                                       child: Text(
-                                        '${widget.saveLaterProducts.title}',
+                                        '${widget.saveLaterProducts.Title}',
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 13),
@@ -101,7 +101,7 @@ class _CartProductItemState extends State<Bag_savelater_Item> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    '${widget.saveLaterProducts.description}',
+                                    '${widget.saveLaterProducts.Description}',
                                     style: TextStyle(
                                         fontSize: 13
                                     ),

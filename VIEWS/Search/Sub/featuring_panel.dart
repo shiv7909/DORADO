@@ -50,7 +50,6 @@ import '../../../CONTROLLERS/main_product_card/Retriving_controllers/product.dar
   }
 
 
-
   // Function to build a shimmering placeholder
   Widget buildShimmerPlaceholder(Size size) {
     return Shimmer.fromColors(
@@ -97,16 +96,14 @@ import '../../../CONTROLLERS/main_product_card/Retriving_controllers/product.dar
     bool showText = true; // Control flag to show text for the first 4 seconds
 
     return FutureBuilder(
-
-         future: Future.delayed(Duration(microseconds: 4)),
-        // future:  Productcontroller.fetchProductsFromPanel('Featuring_panel'),
+          future: Future.delayed(Duration(microseconds: 4)),
+         // future:  Productcontroller.fetchProductsFromPanel('Featuring_panel'),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             // After 4 seconds, hide the text and show shimmering placeholders
             showText = false;
           }
           return Obx(() {
-
             if (Productcontroller.isLoading.value) {
               if (showText) {
                 // Show text for the first 4 seconds
@@ -145,7 +142,7 @@ import '../../../CONTROLLERS/main_product_card/Retriving_controllers/product.dar
               return Container(
                 alignment: Alignment.center,
                   height: size.height * 0.4 + 5,
-                  child: Text('No items in this section'));
+                  child: Text('Loading'));
             }
             else {
               return

@@ -1,169 +1,334 @@
-//
-//
-//
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:get/get.dart';
-// import 'package:untitled1/MODELS/cart_products_model.dart';
-//
-// class Cart_product_controller extends GetxController {
-//
-//
-//   final RxList<Product> cartProducts = RxList<Product>();
-//
-//   // final RxBool hasInvalidData = false.obs;
-//   final RxBool isCartEmpty = true.obs;
-//
-//   Future<void> getProductsFromCart() async {
-//     final User? user = FirebaseAuth.instance.currentUser;
-//
-//     if (user == null) {
-//       print('User is not authenticated');
-//       return;
-//     }
-//
-//
-//
-//     final Map<String, Product> productsInCart = {};
-//
-//
-//     // hasInvalidData.value = false;
-//     CollectionReference cartCollection = FirebaseFirestore.instance
-//         .collection('Users')
-//         .doc(user.uid)
-//         .collection('Cart');
-//
-//     QuerySnapshot cartSnapshot = await cartCollection.get(GetOptions(source: Source.server));
-//
-//     if (cartSnapshot.docs.isEmpty) {
-//       print('No products available');
-//       isCartEmpty.value = true; // Set isCartEmpty to true if the cart is empty
-//       return;
-//     } else {
-//       isCartEmpty.value = false; // Set isCartEmpty to false if there are items
-//     }
-//
-//     for (QueryDocumentSnapshot cartDoc in cartSnapshot.docs) {
-//       final data = cartDoc.data() as Map<String, dynamic>?;
-//
-//       if (data != null) {
-//         final productId = data['id']as int?;
-//         final size = data['size'] as String?;
-//         final quantity = data['quantity'] as int?;
-//
-//         if (productId != null && size != null && quantity != null) {
-//           String productKey = '$productId-$size';
-//
-//           if (productsInCart.containsKey(productKey)) {
-//             productsInCart[productKey]!.quantity += quantity;
-//           } else {
-//             Query productQuery = FirebaseFirestore.instance
-//                 .collection('products')
-//                 .where('id', isEqualTo: productId);
-//             QuerySnapshot productQuerySnapshot = await productQuery.get();
-//             if (productQuerySnapshot.docs.isNotEmpty) {
-//               DocumentSnapshot productSnapshot = productQuerySnapshot.docs.first;
-//               final productDetails = productSnapshot.data() as Map<String, dynamic>;
-//
-//               final sizesQuerySnapshot =
-//               await productSnapshot.reference.collection('Sizes').get();
-//
-//               final sizesAvailableItems = sizesQuerySnapshot.docs.fold<Map<String, int>>(
-//                 {},
-//                     (previousValue, sizeDoc) {
-//                   final sizeData = sizeDoc.data();
-//                   final size = sizeData['size'] as String?;
-//                   if (size != null) {
-//                     previousValue[size] = sizeData['availableItems'] ?? 0;
-//                   } else {
-//                     print('Missing or invalid size data in Firestore document: $sizeData');
-//                   }
-//                   return previousValue;
-//                 },
-//               );
-//
-//               final product = Product(
-//                 id: _parseInteger(productDetails['id']),
-//                 title: productDetails['title'] ?? '',
-//                 description: productDetails['description'] ?? '',
-//                 oprice: _parseInteger(productDetails['oprice']),
-//                 nprice: _parseInteger(productDetails['nprice']),
-//                 discount: _parseInteger(productDetails['discount']),
-//                 quantity: quantity,
-//                 size: size,
-//                 sizesAvailableItems: sizesAvailableItems,
-//               );
-//
-//               if (product.sizesAvailableItems.containsKey(size) &&
-//                   product.sizesAvailableItems[size]! >= product.quantity) {
-//                 product.stockExists = true;
-//                 print('Stock exists for Product ID ${product.id}');
-//                 product.stock = product.sizesAvailableItems[size]!;
-//               } else {
-//                 product.stockExists = false;
-//                 print('Stock unavailable for Product ID ${product.id}');
-//               }
-//
-//               final imageQuerySnapshot =
-//               await productSnapshot.reference.collection('product_images').get();
-//
-//               if (imageQuerySnapshot.docs.isNotEmpty) {
-//                 final firstImageDoc = imageQuerySnapshot.docs.first;
-//                 product.image = firstImageDoc['imagePath'] as String? ?? '';
-//               }
-//               else {
-//                 print('Missing or invalid image data in Firestore document: $productSnapshot');
-//               }
-//               productsInCart[productKey] = product;
-//             } else {
-//               print('Product Document Not Found for Product ID $productId');
-//             }
-//           }
-//
-//         } else {
-//           // hasInvalidData.value = true;
-//           print('Invalid or missing data in Firestore document: $data');
-//         }
-//       } else {
-//         print('No data found in Firestore document: $cartDoc');
-//       }
-//     }
-//
-//     final List<Product> cartProductsList = [];
-//     productsInCart.forEach((productKey, product) {
-//       cartProductsList.add(product);
-//     });
-//
-//     cartProducts.assignAll(cartProductsList);
-//   }
-//
-//   void printProductDetails(Product product) {
-//     print('Product ID: ${product.id}');
-//     print('Image Link: ${product.image}');
-//     print('Title: ${product.title}');
-//     print('Description: ${product.description}');
-//     print('Original Price: ${product.oprice}');
-//     print('New Price: ${product.nprice}');
-//     print('Discount: ${product.discount}');
-//     print('Size_in_cart: ${product.size}');
-//     print('Quantity in Cart: ${product.quantity}');
-//     print('Stock Exists: ${product.stockExists ? 'Yes' : 'No'}');
-//     print('Sizes and Available Items:');
-//     product.sizesAvailableItems.forEach((size, availableItems) {
-//       print('  Size: $size');
-//       print('  Available Items: $availableItems');
-//     });
-//     print('\n');
-//   }
-//
-//   static int _parseInteger(dynamic value) {
-//     if (value is int) {
-//       return value;
-//     } else if (value is String && value.isNotEmpty) {
-//       return int.tryParse(value) ?? 0;
-//     } else {
-//       return 0;
-//     }
-//   }
-// }
-//
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+
+import '../../../MODELS/cart_products_model.dart';
+
+class CartProductController extends GetxController {
+
+   //final RxList<CartProduct> cartproducts = RxList<CartProduct>();
+
+
+  var isLoading = true.obs;
+  var imageUrl = ''.obs;
+  var isCartEmpty = false.obs;
+  var cartProducts = <CartProduct>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    try {
+      await fetchProducts(); // Your logic for fetching data
+      await Future.delayed(const Duration(seconds: 2));
+      isLoading.value = false;
+    } catch (error) {
+      print('Error fetching data: $error');
+      isLoading.value = false;
+    }
+  }
+
+
+
+
+  Future<void> fetchProducts() async {
+    cartProducts.clear();
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print("user unauthenticated");
+        isCartEmpty.value=true;
+      return;
+    }
+
+
+     // cartproducts.clear();
+    CollectionReference cartCollection = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user.uid)
+        .collection('Cart');
+
+    try {
+      cartProducts.clear();
+      // Get all documents from the 'Cart' collection
+      QuerySnapshot cartSnapshot = await cartCollection.get();
+      if (cartSnapshot.docs.isEmpty) {
+        isCartEmpty.value = true; // Set isCartEmpty to true if the cart is empty
+        return;
+      }
+      else
+        isCartEmpty.value = false;
+      // Iterate through each document in the 'Cart' collection
+      for (QueryDocumentSnapshot cartDoc in cartSnapshot.docs) {
+
+        final productId = cartDoc['id'] as String;
+        final variationId = cartDoc['variance_id'] as String;
+        final size=cartDoc['size'];
+        final quantity=cartDoc['quantity'];
+
+
+        await findProductDocument(productId, variationId,size,quantity);
+      }
+    }
+    catch (error) {
+      print('Error fetching products from panel: $error');
+      // Handle errors
+    }
+  }
+
+
+  Future<void> findProductDocument(String productId, String variationId,String size,int quantity) async {
+    try {
+      final parts = productId.split('-');
+      final gender = parts[0][0] == '1' ? 'Men' : 'Women';
+      print(parts[0]);
+      print(parts[1]);
+      print(parts[2]);
+      print(parts[3]);
+      final categoryCode = parts[1];
+      String documentCode=parts[2];
+      String category=parts[3];
+
+      switch (categoryCode) {
+        case '21':
+          category = 'Footwear';
+          switch (parts[2]) {
+            case '001':
+              documentCode = 'Casual';
+              break;
+            case '002':
+              documentCode = 'Running';
+              break;
+            case '003':
+              documentCode = 'Sliders';
+              break;
+            case '004':
+              documentCode = 'Sneakers';
+              break;
+            default:
+            // Handle unknown document code for footwear
+              break;
+          }
+          break;
+
+
+        case '22':
+          category = 'Overlays';
+          switch (parts[2]) {
+            case '001':
+              documentCode = 'Hoodies';
+              break;
+            case '002':
+              documentCode = 'Jackets';
+              break;
+            case '003':
+              documentCode = 'Sweatshirts';
+              break;
+          // Add cases for other overlay subcategories if needed
+            default:
+            // Handle unknown document code for overlays
+              break;
+          }
+          break;
+
+
+        case '24':
+          category = 'Pants';
+          switch (parts[2]) {
+            case '001':
+              documentCode = 'Cargo';
+              break;
+            case '002':
+              documentCode = 'Formal';
+              break;
+            case '003':
+              documentCode = 'Jeans';
+              break;
+            case '004':
+              documentCode = 'Joggers';
+              break;
+            default:
+            // Handle unknown document code for footwear
+              break;
+          }
+          break;
+
+
+        case '25':
+          category = 'Shirts';
+          switch (parts[2]) {
+            case '001':
+              documentCode = 'Checks';
+              break;
+            case '002':
+              documentCode = 'Oversize';
+              break;
+            case '003':
+              documentCode = 'Overshirt';
+              break;
+            case '004':
+              documentCode = 'Plain';
+              break;
+            default:
+            // Handle unknown document code for footwear
+              break;
+          }
+          break;
+
+
+        case '23':
+          category = 'Tshirts';
+          switch (parts[2]) {
+            case '001':
+              documentCode = 'Basic';
+              break;
+            case '002':
+              documentCode = 'Graphic';
+              break;
+            case '003':
+              documentCode = 'Oversize';
+              break;
+            case '004':
+              documentCode = 'Polo';
+              break;
+            default:
+            // Handle unknown document code for footwear
+              break;
+          }
+          break;
+        default:
+          break;
+      }
+
+      final productDocRef = FirebaseFirestore.instance
+          .collection('Total_Products')
+          .doc(gender)
+          .collection(category)
+          .doc(documentCode)
+          .collection('products')
+          .doc(productId); // Directly access the document using productId as the document ID
+
+      final productDocSnapshot = await productDocRef.get();
+
+      if (productDocSnapshot.exists) {
+        print('product exists hureyyyyyyyyyyyyyyy');
+
+
+        final productData = productDocSnapshot.data() as Map<String, dynamic>;
+
+        final id = productData['id'] ?? '';
+        print(id);
+        print(variationId);
+        final title = productData['Title'] ?? '';
+        final description = productData['Description'] ?? '';
+        // Check for the exact field name
+
+        final variationRef = productDocRef.collection('variations').doc(variationId);
+
+        final variationDocSnapshot = await variationRef.get();
+
+        if (variationDocSnapshot.exists) {
+          final variationData = variationDocSnapshot.data() as Map<String, dynamic>;
+
+          final oprice = variationData['oprice'] ?? 0;
+          final nprice = variationData['nprice'] ?? 0;
+          final color = variationData['color'] ?? '';
+          final discount = variationData['discount'] ?? 0;
+          final image = variationData['image'] ?? ''; // Assuming image is a single string URL
+          final quantity_in_stock = variationData['Quantity'] ?? 0;
+
+
+          final cartproduct = CartProduct(
+            id: id,
+            // No_of_Variations: noOfVariations,
+            oprice: oprice,
+            nprice: nprice,
+            discount: discount,
+            color: color,
+            imagepath: image,
+            Quantity_in_stock: quantity_in_stock,
+            Title:title,
+            Description: description,
+            variationid: variationId,
+            Quantity_in_cart: quantity,
+            size:size,
+
+          );
+
+          cartProducts.add(cartproduct);
+          printProductDetails(cartproduct);
+          isLoading.value = false;
+        } else {
+          print('Variation document not found');
+        }
+      } else {
+        print('Product document not found');
+      }
+    }
+    catch (error) {
+      print('Error finding product document: $error');
+      // Handle errors
+    }
+  }
+
+
+
+  Future<bool> isCartEmpty_value()async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print("user unauthenticated");
+      isCartEmpty.value=true;
+      print("trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+      return true;
+
+    }
+
+    CollectionReference cartCollection = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user.uid)
+        .collection('Cart');
+
+    try {
+      // Get all documents from the 'Cart' collection
+      QuerySnapshot cartSnapshot = await cartCollection.get();
+      if (cartSnapshot.docs.isEmpty) {
+        isCartEmpty.value = true; // Set isCartEmpty to true if the cart is empty
+        print("trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+        return true;
+      }
+      else
+        isCartEmpty.value = false;
+      print("flaseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+      return false;
+    }
+
+    catch (error) {
+      print('Error fetching products from panel: $error');
+      print("trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+      return true;
+      // Handle errors
+    }
+  }
+
+
+
+}
+
+
+void printProductDetails(CartProduct product) {
+  print('Product ID: ${product.id}');
+  print('Title: ${product.Title}');
+  print('Description: ${product.Description}');
+  print('OPrice: ${product.oprice}');
+  print('NPrice: ${product.nprice}');
+  print('Discount: ${product.discount}');
+  print('Color: ${product.color}');
+  print('Image Path: ${product.imagepath}');
+  print('Quantity: ${product.Quantity_in_cart}');
+  print('Quamtity_in_stock'"${product.Quantity_in_stock}");
+  print('----------------------------------------');
+}

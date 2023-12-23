@@ -11,13 +11,13 @@ class Product_Add_controller extends GetxController {
 
 
 
-  void increment_cart(String size, int id) {
+  void ADD(String id, String varience_id,String size) {
     // Get the current user
     final User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
       // Define the product information you want to add to the cart
-      int selectedProductID = id; // Use it directly as an int
+      // String selectedProductID = id; // Use it directly as an int
 
       // Reference to the user's cart subcollection
       CollectionReference userCartRef = FirebaseFirestore.instance
@@ -27,8 +27,9 @@ class Product_Add_controller extends GetxController {
 
       // Check if a document with the same product ID and size already exists in the cart
       userCartRef
-          .where('id', isEqualTo: selectedProductID) // Use it as an int
-          .where('size', isEqualTo: size) // Include the 'size' field
+          .where('id', isEqualTo: id) // Use it as an int
+          .where('variance_id', isEqualTo: varience_id)
+          .where("size", isEqualTo: size)// Include the 'size' field
           .get()
           .then((querySnapshot) {
         if (querySnapshot.docs.isNotEmpty) {
@@ -43,7 +44,8 @@ class Product_Add_controller extends GetxController {
         } else {
           // If no matching document exists, create a new document
           userCartRef.add({
-            'id': selectedProductID, // Use it as an int
+            'id': id,
+            'variance_id': varience_id,// Use it as an int
             'size': size, // Include the 'size' field
             'quantity': 1, // Initialize quantity to 1 for a new item
             'Timestamp': FieldValue.serverTimestamp(),

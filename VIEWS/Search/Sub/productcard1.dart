@@ -66,7 +66,7 @@ class _productcard1State extends State<productcard1> {
             topRight: Radius.circular(5),
           ),
             color: Colors.grey.shade100,
-          // color: Color(0x6FE3E5E5)
+           //color: Colors.orange
         ),
           child: Column(
               children: <Widget>[

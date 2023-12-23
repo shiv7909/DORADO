@@ -161,24 +161,38 @@ class ParticularProductController extends GetxController {
         final noOfVariations = productData['No_of_Variations'] ??
             0; // Check for the exact field name
 
-        final variationRef = productDocRef.collection('variations').doc(
-            variationId);
+        final variationRef = productDocRef.collection('variations').doc(variationId);
 
         final variationDocSnapshot = await variationRef.get();
 
-        if (variationDocSnapshot.exists) {
-          final variationData = variationDocSnapshot.data() as Map<
-              String,
-              dynamic>;
 
+
+
+
+        if (variationDocSnapshot.exists) {
+          final variationData = variationDocSnapshot.data() as Map<String, dynamic>;
+          final Varid=variationData['vid']??'';
           final oprice = variationData['oprice'] ?? 0;
           final nprice = variationData['nprice'] ?? 0;
           final color = variationData['color'] ?? '';
           final discount = variationData['discount'] ?? 0;
-          final List<String> images = variationData['images'] != null ? List
-              .from(variationData['images']) : [
+          final List<String> images = variationData['images'] != null ? List.from(variationData['images']) : [
           ]; // Assuming image is a single string URL
           final quantity = variationData['Quantity'] ?? 0;
+          final Map<String, dynamic> sizesData = variationData['sizes'] ?? {};
+
+
+          final List<SizeInfo> sizesList = sizesData.entries.map((entry) {
+            final sizeInfo = entry.value as Map<String, dynamic>;
+            final size = sizeInfo['size'] as String;
+            final availableItems = sizeInfo['availableItems'] as int;
+
+            return SizeInfo(
+              size: size,
+              availableItems: availableItems,
+            );
+          }).toList();
+
 
           final product = ParticularProduct(
             id: id,
@@ -191,6 +205,8 @@ class ParticularProductController extends GetxController {
             Title: title,
             Description: description,
             images: images,
+            sizes: sizesList,
+            varid: Varid,
           );
 
           // Print all the retrieved information
@@ -204,7 +220,9 @@ class ParticularProductController extends GetxController {
           print('Title: $title');
           print('Description: $description');
           print('Images: $images');
-
+          sizesList.forEach((sizeInfo) {
+            print('Size: ${sizeInfo.size}, Available Items: ${sizeInfo.availableItems}');
+          });
           products.clear();
           products.add(product);
           isLoading.value = false;
