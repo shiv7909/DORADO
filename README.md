@@ -1,5 +1,5 @@
 - 👋 Hi, I’m shiv  @shiv7909
--  I’m Proficient in Flutter,firebase backend, Git, Github, DSA,problem solving, I'm driven to create an immersive mobile applications.
+-  I’m Proficient in Flutter,firebase backend, Git, Github, problem solving, I'm driven to create an immersive mobile applications.
 
 - Passionate about both the sustainable fashion movement and the tech realm, I'm steering the development of my brand's app using Flutter technology.
 - Alongside my dedication to building a sustainable fashion brand,
